@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="ro">
 <head>
 <meta charset="UTF-8">
@@ -6,67 +7,78 @@
 <title>Neon Studio</title>
 
 <style>
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #050505;
-  color: white;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #0b0b0f;
+  color: #fff;
   overflow-x: hidden;
 }
 
-/* 3D BACKGROUND */
-canvas {
+/* background glow */
+body::before {
+  content: "";
   position: fixed;
-  top: 0;
-  left: 0;
-  z-index: -2;
-}
-
-/* CURSOR GLOW */
-.cursor {
-  position: fixed;
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle,#ff00aa55,transparent);
-  filter: blur(80px);
-  pointer-events: none;
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, rgba(255,0,170,0.15), transparent 60%);
+  top: 50%;
+  left: 50%;
   transform: translate(-50%,-50%);
-  z-index: 1;
+  filter: blur(120px);
+  z-index: -1;
 }
 
-/* NAV */
+/* subtle noise */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: url('https://grainy-gradients.vercel.app/noise.svg');
+  opacity: 0.05;
+  pointer-events: none;
+}
+
+/* NAVBAR CENTERED */
 nav {
   position: fixed;
   top: 0;
   width: 100%;
   display: flex;
-  justify-content: space-between;
-  padding: 20px 60px;
-  background: rgba(0,0,0,0.4);
-  backdrop-filter: blur(10px);
+  justify-content: center;
+  padding: 18px 0;
+  backdrop-filter: blur(20px);
+  background: rgba(10,10,15,0.5);
   z-index: 10;
 }
 
+nav div {
+  display: flex;
+  gap: 40px;
+}
+
 nav a {
-  margin-left: 25px;
   text-decoration: none;
-  color: #aaa;
+  color: #bbb;
+  font-size: 14px;
   transition: 0.3s;
 }
 
 nav a:hover {
-  color: #ff00aa;
+  color: #fff;
 }
 
 /* SECTIONS */
 section {
   min-height: 100vh;
-  padding: 120px 80px;
+  padding: 120px 20px;
   opacity: 0;
-  transform: translateY(50px);
-  transition: all 1s ease;
+  transform: translateY(40px);
+  transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 section.show {
@@ -75,146 +87,148 @@ section.show {
 }
 
 /* HERO */
-.title {
-  font-size: 75px;
-  background: linear-gradient(90deg,#ff00aa,#ff66cc);
+#home {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero-title {
+  font-size: 72px;
+  font-weight: 600;
+  letter-spacing: -2px;
+  background: linear-gradient(90deg, #fff, #ff00aa);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
+.hero-sub {
+  margin-top: 15px;
+  font-size: 18px;
+  color: #aaa;
+  max-width: 500px;
+}
+
+/* BUTTON */
+.btn {
+  margin-top: 30px;
+  padding: 12px 28px;
+  border-radius: 30px;
+  border: none;
+  background: white;
+  color: black;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
 /* PROJECTS */
 .projects {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 25px;
-  flex-wrap: wrap;
   margin-top: 40px;
 }
 
 .card {
-  width: 260px;
   padding: 25px;
-  border-radius: 20px;
+  border-radius: 18px;
   background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(15px);
-  transition: transform 0.2s ease;
-  position: relative;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 30px rgba(255,0,170,0.2);
 }
 
 /* CONTACT */
 input, textarea {
-  display: block;
-  margin-top: 12px;
+  width: 100%;
+  max-width: 400px;
   padding: 14px;
-  width: 320px;
+  margin-top: 12px;
   border-radius: 12px;
-  border: none;
+  border: 1px solid rgba(255,255,255,0.1);
   background: rgba(255,255,255,0.05);
   color: white;
 }
 
-button {
-  margin-top: 20px;
-  padding: 14px 30px;
-  border-radius: 30px;
-  border: 1px solid #ff00aa;
-  background: transparent;
-  color: white;
-  cursor: pointer;
+textarea {
+  height: 120px;
+  resize: none;
 }
 
-button:hover {
-  background: #ff00aa;
-  box-shadow: 0 0 25px #ff00aa;
+/* CURSOR */
+.cursor {
+  position: fixed;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(255,255,255,0.08), transparent);
+  filter: blur(80px);
+  pointer-events: none;
+  transform: translate(-50%,-50%);
+  z-index: 0;
 }
 </style>
+
 </head>
 
 <body>
 
 <nav>
-  <div>DEV<span style="color:#ff00aa;">X</span></div>
   <div>
     <a href="#home">Home</a>
-    <a href="#projects">Proiecte</a>
-    <a href="#contact">Contact</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact Me</a>
   </div>
 </nav>
 
-<canvas id="bg"></canvas>
 <div class="cursor"></div>
 
 <!-- HOME -->
+
 <section id="home">
-  <div class="title">Neon Studio</div>
-  <p>Experiențe digitale de nouă generație</p>
+  <div class="hero-title">Design. Build. Inspire.</div>
+  <div class="hero-sub">
+    Experiențe digitale minimaliste, premium, inspirate din designul modern Apple.
+  </div>
+  <button class="btn" onclick="document.querySelector('#projects').scrollIntoView()">
+    Explore
+  </button>
 </section>
 
 <!-- PROJECTS -->
+
 <section id="projects">
-  <h2>Proiecte</h2>
+  <h2 style="font-size:40px;">Proiecte</h2>
 
   <div class="projects">
-    <div class="card">🚀 Website futuristic</div>
-    <div class="card">💎 UI premium</div>
-    <div class="card">⚡ App rapid</div>
+    <div class="card">Website minimal luxury</div>
+    <div class="card">UI/UX design system</div>
+    <div class="card">Frontend animation system</div>
   </div>
 </section>
 
 <!-- CONTACT -->
+
 <section id="contact">
-  <h2>Contact</h2>
+  <h2 style="font-size:40px;">Contact Me</h2>
 
   <input placeholder="Nume">
   <input placeholder="Email">
   <textarea placeholder="Mesaj"></textarea>
-  <button>Trimite</button>
+  <br>
+  <button class="btn">Trimite</button>
 </section>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-
 <script>
-/* ===== 3D BACKGROUND ===== */
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({alpha:true});
-renderer.setSize(innerWidth, innerHeight);
-document.body.appendChild(renderer.domElement);
-
-const geometry = new THREE.BufferGeometry();
-const count = 2000;
-const positions = new Float32Array(count * 3);
-
-for(let i=0;i<count*3;i++){
-  positions[i] = (Math.random()-0.5)*25;
-}
-
-geometry.setAttribute('position', new THREE.BufferAttribute(positions,3));
-
-const material = new THREE.PointsMaterial({
-  color: 0xff00aa,
-  size: 0.03
-});
-
-const particles = new THREE.Points(geometry, material);
-scene.add(particles);
-
-camera.position.z = 6;
-
-function animate(){
-  requestAnimationFrame(animate);
-  particles.rotation.y += 0.001;
-  renderer.render(scene,camera);
-}
-animate();
-
-/* ===== CURSOR ===== */
-document.addEventListener("mousemove", e=>{
-  const c = document.querySelector(".cursor");
-  c.style.left = e.clientX + "px";
-  c.style.top = e.clientY + "px";
-});
-
-/* ===== SCROLL REVEAL ===== */
+/* SCROLL REVEAL */
 const sections = document.querySelectorAll("section");
 
 window.addEventListener("scroll", ()=>{
@@ -226,30 +240,27 @@ window.addEventListener("scroll", ()=>{
   });
 });
 
-/* ===== 3D CARD HOVER ===== */
-document.querySelectorAll(".card").forEach(card=>{
-  card.addEventListener("mousemove",(e)=>{
-    const r = card.getBoundingClientRect();
-    const x = e.clientX - r.left;
-    const y = e.clientY - r.top;
+/* SMOOTH CURSOR */
+const cursor = document.querySelector(".cursor");
 
-    const rotX = ((y / r.height) - 0.5) * -20;
-    const rotY = ((x / r.width) - 0.5) * 20;
+let x = 0, y = 0;
+let mx = 0, my = 0;
 
-    card.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
-  });
-
-  card.addEventListener("mouseleave",()=>{
-    card.style.transform = "rotateX(0deg) rotateY(0deg)";
-  });
+document.addEventListener("mousemove", e=>{
+  mx = e.clientX;
+  my = e.clientY;
 });
 
-/* RESIZE */
-window.addEventListener("resize",()=>{
-  camera.aspect = innerWidth/innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(innerWidth,innerHeight);
-});
+function animate() {
+  x += (mx - x) * 0.1;
+  y += (my - y) * 0.1;
+
+  cursor.style.left = x + "px";
+  cursor.style.top = y + "px";
+
+  requestAnimationFrame(animate);
+}
+animate();
 </script>
 
 </body>
