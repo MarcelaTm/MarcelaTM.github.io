@@ -6,9 +6,7 @@
 <title>Neon Studio</title>
 
 <style>
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
@@ -18,52 +16,73 @@ body {
   overflow-x: hidden;
 }
 
-/* subtle background glow */
+/* 🌫️ subtle premium light */
 body::before {
   content: "";
   position: fixed;
-  width: 800px;
-  height: 800px;
-  background: radial-gradient(circle, rgba(255,0,170,0.15), transparent 60%);
+  width: 900px;
+  height: 900px;
+  background: radial-gradient(circle, rgba(255,255,255,0.06), transparent 60%);
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
-  filter: blur(120px);
+  filter: blur(140px);
   z-index: -1;
 }
 
-/* NAVBAR (Apple style minimal) */
+/* NAV PREMIUM */
 nav {
   position: fixed;
   top: 0;
   width: 100%;
   display: flex;
-  justify-content: space-between;
-  padding: 18px 60px;
-  backdrop-filter: blur(20px);
-  background: rgba(10,10,15,0.5);
+  justify-content: center;
+  padding: 16px 0;
+  backdrop-filter: blur(22px);
+  background: rgba(10,10,15,0.35);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
   z-index: 10;
 }
 
+nav div {
+  display: flex;
+  gap: 44px;
+}
+
 nav a {
-  margin-left: 25px;
   text-decoration: none;
-  color: #bbb;
+  color: #b8b8b8;
   font-size: 14px;
+  position: relative;
+  transition: 0.25s;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0%;
+  height: 1px;
+  background: white;
   transition: 0.3s;
 }
 
 nav a:hover {
-  color: #fff;
+  color: white;
+}
+
+nav a:hover::after {
+  width: 100%;
 }
 
 /* SECTIONS */
 section {
   min-height: 100vh;
-  padding: 140px 80px;
+  padding: 140px 10%;
   opacity: 0;
-  transform: translateY(40px);
-  transition: all 1.2s ease;
+  transform: translateY(28px);
+  transition: all 0.85s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 section.show {
@@ -73,81 +92,111 @@ section.show {
 
 /* HERO */
 .hero-title {
-  font-size: 72px;
+  font-size: 76px;
   font-weight: 600;
   letter-spacing: -2px;
+  line-height: 1.05;
 }
 
 .hero-sub {
-  margin-top: 15px;
+  margin-top: 18px;
   font-size: 18px;
-  color: #aaa;
-  max-width: 500px;
+  color: #a9a9a9;
+  max-width: 560px;
 }
 
-/* BUTTON (Apple style subtle) */
+/* BUTTON PREMIUM */
 .btn {
-  margin-top: 30px;
-  padding: 12px 28px;
-  border-radius: 30px;
-  border: none;
-  background: white;
-  color: black;
+  margin-top: 34px;
+  padding: 12px 26px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.05);
+  color: white;
   cursor: pointer;
-  transition: 0.3s;
+  transition: 0.25s;
+  backdrop-filter: blur(10px);
 }
 
 .btn:hover {
-  transform: scale(1.05);
+  transform: translateY(-2px);
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.25);
+}
+
+/* ABOUT PREMIUM */
+.about {
+  margin-top: 50px;
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 50px;
+  align-items: center;
+}
+
+.about-text {
+  font-size: 22px;
+  line-height: 1.7;
+  color: #d0d0d0;
+}
+
+.about-card {
+  padding: 26px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(16px);
+  transition: 0.3s;
+}
+
+.about-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(255,255,255,0.2);
 }
 
 /* PROJECTS */
 .projects {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 25px;
+  gap: 22px;
   margin-top: 40px;
 }
 
 .card {
-  padding: 25px;
+  padding: 26px;
   border-radius: 18px;
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(20px);
+  background: rgba(255,255,255,0.03);
   border: 1px solid rgba(255,255,255,0.08);
-  transition: transform 0.3s ease;
+  backdrop-filter: blur(12px);
+  transition: 0.25s;
 }
 
 .card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-6px);
+  border-color: rgba(255,255,255,0.2);
 }
 
-/* CONTACT */
+/* INPUTS */
 input, textarea {
-  width: 350px;
+  width: 100%;
+  max-width: 420px;
   padding: 14px;
   margin-top: 12px;
   border-radius: 12px;
   border: 1px solid rgba(255,255,255,0.1);
-  background: rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.03);
   color: white;
+  transition: 0.2s;
 }
 
-textarea {
-  height: 120px;
-  resize: none;
+input:focus, textarea:focus {
+  outline: none;
+  border-color: rgba(255,255,255,0.3);
 }
 
-/* CURSOR SOFT GLOW */
-.cursor {
-  position: fixed;
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(255,255,255,0.08), transparent);
-  filter: blur(80px);
-  pointer-events: none;
-  transform: translate(-50%,-50%);
-  z-index: 0;
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .hero-title { font-size: 46px; }
+  .about { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -155,66 +204,77 @@ textarea {
 <body>
 
 <nav>
-  <div style="font-weight:600;">Neon Studio</div>
   <div>
     <a href="#home">Home</a>
+    <a href="#about">About Me</a>
     <a href="#projects">Projects</a>
-    <a href="#contact">Contact</a>
+    <a href="#contact">Contact Me</a>
   </div>
 </nav>
-
-<div class="cursor"></div>
 
 <!-- HOME -->
 <section id="home">
   <div class="hero-title">Design. Build. Inspire.</div>
   <div class="hero-sub">
-    Experiențe digitale minimaliste, premium, inspirate din designul modern Apple.
+    Experiențe digitale premium, minimaliste și create cu atenție la detalii.
   </div>
   <button class="btn">Explore</button>
 </section>
 
+<!-- ABOUT -->
+<section id="about">
+  <div class="hero-title" style="font-size:48px;">About Me</div>
+
+  <div class="about">
+    <div class="about-text">
+      Sunt un creator digital pasionat de design curat, experiențe moderne și interfețe care se simt naturale și premium.
+      <br><br>
+      Construiesc site-uri care nu doar arată bine — ci se simt bine.
+    </div>
+
+    <div class="about-card">
+      ⚡ UI/UX Design<br><br>
+      🚀 Frontend Dev<br><br>
+      🎯 Product Thinking
+    </div>
+  </div>
+</section>
+
 <!-- PROJECTS -->
 <section id="projects">
-  <h2 style="font-size:40px; font-weight:600;">Proiecte</h2>
+  <div class="hero-title" style="font-size:40px;">Projects</div>
 
   <div class="projects">
-    <div class="card">Website minimal luxury</div>
-    <div class="card">UI/UX design system</div>
-    <div class="card">Frontend animation system</div>
+    <div class="card">Luxury Website</div>
+    <div class="card">Design System</div>
+    <div class="card">Interactive UI</div>
   </div>
 </section>
 
 <!-- CONTACT -->
 <section id="contact">
-  <h2 style="font-size:40px;">Contact</h2>
+  <div class="hero-title" style="font-size:40px;">Contact Me</div>
 
   <input placeholder="Nume">
   <input placeholder="Email">
   <textarea placeholder="Mesaj"></textarea>
-  <br>
+
   <button class="btn">Trimite</button>
 </section>
 
 <script>
-/* SCROLL REVEAL (Apple style subtle) */
 const sections = document.querySelectorAll("section");
 
-window.addEventListener("scroll", ()=>{
-  sections.forEach(sec=>{
-    const top = sec.getBoundingClientRect().top;
-    if(top < window.innerHeight - 100){
+function reveal() {
+  sections.forEach(sec => {
+    if (sec.getBoundingClientRect().top < window.innerHeight - 100) {
       sec.classList.add("show");
     }
   });
-});
+}
 
-/* SOFT CURSOR */
-document.addEventListener("mousemove", e=>{
-  const c = document.querySelector(".cursor");
-  c.style.left = e.clientX + "px";
-  c.style.top = e.clientY + "px";
-});
+window.addEventListener("scroll", reveal);
+window.addEventListener("load", reveal);
 </script>
 
 </body>
