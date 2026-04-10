@@ -7,53 +7,50 @@
 <title>Neon Studio</title>
 
 <style>
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: #0b0b0f;
-  color: #fff;
+  font-family: -apple-system, sans-serif;
+  background: #050507;
+  color: white;
   overflow-x: hidden;
 }
 
-/* background glow */
-body::before {
-  content: "";
+/* 🔥 ANIMATED BACKGROUND */
+.bg {
   position: fixed;
-  width: 800px;
-  height: 800px;
-  background: radial-gradient(circle, rgba(255,0,170,0.15), transparent 60%);
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-  filter: blur(120px);
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 30% 30%, #ff00aa22, transparent),
+              radial-gradient(circle at 70% 60%, #00f0ff22, transparent);
+  animation: moveBg 20s linear infinite;
+  z-index: -2;
+}
+
+@keyframes moveBg {
+  0% { transform: translate(0,0); }
+  50% { transform: translate(-10%, -10%); }
+  100% { transform: translate(0,0); }
+}
+
+/* 🌌 PARTICLES */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
   z-index: -1;
 }
 
-/* subtle noise */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: url('https://grainy-gradients.vercel.app/noise.svg');
-  opacity: 0.05;
-  pointer-events: none;
-}
-
-/* NAVBAR CENTERED */
+/* NAV */
 nav {
   position: fixed;
   top: 0;
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: 18px 0;
+  padding: 20px;
   backdrop-filter: blur(20px);
-  background: rgba(10,10,15,0.5);
-  z-index: 10;
 }
 
 nav div {
@@ -62,124 +59,93 @@ nav div {
 }
 
 nav a {
+  color: #aaa;
   text-decoration: none;
-  color: #bbb;
-  font-size: 14px;
-  transition: 0.3s;
 }
 
-nav a:hover {
-  color: #fff;
-}
+nav a:hover { color: white; }
 
-/* SECTIONS */
+/* HERO */
 section {
   min-height: 100vh;
   padding: 120px 20px;
-  opacity: 0;
-  transform: translateY(40px);
-  transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-section.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* HERO */
-#home {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
+/* 💥 GLITCH TEXT */
 .hero-title {
-  font-size: 72px;
-  font-weight: 600;
-  letter-spacing: -2px;
-  background: linear-gradient(90deg, #fff, #ff00aa);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  font-size: 80px;
+  font-weight: 700;
+  position: relative;
 }
 
-.hero-sub {
-  margin-top: 15px;
-  font-size: 18px;
-  color: #aaa;
-  max-width: 500px;
+.hero-title::before,
+.hero-title::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
 }
 
-/* BUTTON */
+.hero-title::before {
+  color: #ff00aa;
+  animation: glitch 2s infinite;
+}
+
+.hero-title::after {
+  color: #00f0ff;
+  animation: glitch 2s infinite reverse;
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px,2px); }
+  40% { transform: translate(-2px,-2px); }
+  60% { transform: translate(2px,2px); }
+  80% { transform: translate(2px,-2px); }
+  100% { transform: translate(0); }
+}
+
+/* 🧲 MAGNET BUTTON */
 .btn {
-  margin-top: 30px;
-  padding: 12px 28px;
+  margin-top: 40px;
+  padding: 14px 32px;
   border-radius: 30px;
-  border: none;
   background: white;
   color: black;
+  border: none;
   cursor: pointer;
-  transition: 0.3s;
-}
-
-.btn:hover {
-  transform: scale(1.05);
+  transition: transform 0.2s;
 }
 
 /* PROJECTS */
 .projects {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 25px;
-  margin-top: 40px;
+  grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+  gap: 20px;
 }
 
 .card {
-  padding: 25px;
-  border-radius: 18px;
+  padding: 30px;
+  border-radius: 20px;
   background: rgba(255,255,255,0.05);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.08);
   transition: 0.3s;
 }
 
 .card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 0 30px rgba(255,0,170,0.2);
-}
-
-/* CONTACT */
-input, textarea {
-  width: 100%;
-  max-width: 400px;
-  padding: 14px;
-  margin-top: 12px;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.1);
-  background: rgba(255,255,255,0.05);
-  color: white;
-}
-
-textarea {
-  height: 120px;
-  resize: none;
-}
-
-/* CURSOR */
-.cursor {
-  position: fixed;
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(255,255,255,0.08), transparent);
-  filter: blur(80px);
-  pointer-events: none;
-  transform: translate(-50%,-50%);
-  z-index: 0;
+  transform: scale(1.05) rotateX(5deg);
+  box-shadow: 0 0 40px #ff00aa55;
 }
 </style>
 
 </head>
 
 <body>
+
+<div class="bg"></div>
+<canvas id="particles"></canvas>
 
 <nav>
   <div>
@@ -189,78 +155,76 @@ textarea {
   </div>
 </nav>
 
-<div class="cursor"></div>
-
-<!-- HOME -->
-
 <section id="home">
-  <div class="hero-title">Design. Build. Inspire.</div>
-  <div class="hero-sub">
-    Experiențe digitale minimaliste, premium, inspirate din designul modern Apple.
+  <div class="hero-title" data-text="NEON FUTURE">
+    NEON FUTURE
   </div>
-  <button class="btn" onclick="document.querySelector('#projects').scrollIntoView()">
-    Explore
-  </button>
+  <p>Experiență digitală de nouă generație</p>
+  <button class="btn">Explore</button>
 </section>
-
-<!-- PROJECTS -->
 
 <section id="projects">
-  <h2 style="font-size:40px;">Proiecte</h2>
-
+  <h2>Proiecte</h2>
   <div class="projects">
-    <div class="card">Website minimal luxury</div>
-    <div class="card">UI/UX design system</div>
-    <div class="card">Frontend animation system</div>
+    <div class="card">AI Interface</div>
+    <div class="card">3D Web Experience</div>
+    <div class="card">Interactive Portfolio</div>
   </div>
 </section>
 
-<!-- CONTACT -->
-
 <section id="contact">
-  <h2 style="font-size:40px;">Contact Me</h2>
-
-  <input placeholder="Nume">
-  <input placeholder="Email">
-  <textarea placeholder="Mesaj"></textarea>
-  <br>
-  <button class="btn">Trimite</button>
+  <h2>Contact Me</h2>
 </section>
 
 <script>
-/* SCROLL REVEAL */
-const sections = document.querySelectorAll("section");
+/* 🌌 PARTICLES */
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
 
-window.addEventListener("scroll", ()=>{
-  sections.forEach(sec=>{
-    const top = sec.getBoundingClientRect().top;
-    if(top < window.innerHeight - 100){
-      sec.classList.add("show");
-    }
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+
+let particles = [];
+
+for(let i=0;i<80;i++){
+  particles.push({
+    x: Math.random()*canvas.width,
+    y: Math.random()*canvas.height,
+    r: Math.random()*2,
+    dx: (Math.random()-0.5)*0.5,
+    dy: (Math.random()-0.5)*0.5
   });
-});
-
-/* SMOOTH CURSOR */
-const cursor = document.querySelector(".cursor");
-
-let x = 0, y = 0;
-let mx = 0, my = 0;
-
-document.addEventListener("mousemove", e=>{
-  mx = e.clientX;
-  my = e.clientY;
-});
-
-function animate() {
-  x += (mx - x) * 0.1;
-  y += (my - y) * 0.1;
-
-  cursor.style.left = x + "px";
-  cursor.style.top = y + "px";
-
-  requestAnimationFrame(animate);
 }
-animate();
+
+function draw(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles.forEach(p=>{
+    p.x+=p.dx;
+    p.y+=p.dy;
+
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle="white";
+    ctx.fill();
+  });
+  requestAnimationFrame(draw);
+}
+draw();
+
+/* 🧲 MAGNET EFFECT */
+const btn = document.querySelector(".btn");
+
+btn.addEventListener("mousemove", e=>{
+  const rect = btn.getBoundingClientRect();
+  const x = e.clientX - rect.left - rect.width/2;
+  const y = e.clientY - rect.top - rect.height/2;
+
+  btn.style.transform = `translate(${x*0.2}px, ${y*0.2}px)`;
+});
+
+btn.addEventListener("mouseleave", ()=>{
+  btn.style.transform = "translate(0,0)";
+});
 </script>
 
 </body>
