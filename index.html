@@ -7,136 +7,186 @@
 <title>Neon Studio</title>
 
 <style>
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   margin: 0;
-  font-family: -apple-system, sans-serif;
-  background: #050507;
-  color: white;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #0b0b0f;
+  color: #fff;
   overflow-x: hidden;
 }
 
-/* 🔥 ANIMATED BACKGROUND */
-.bg {
+/* subtle background glow */
+body::before {
+  content: "";
   position: fixed;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle at 30% 30%, #ff00aa22, transparent),
-              radial-gradient(circle at 70% 60%, #00f0ff22, transparent);
-  animation: moveBg 20s linear infinite;
-  z-index: -2;
-}
-
-@keyframes moveBg {
-  0% { transform: translate(0,0); }
-  50% { transform: translate(-10%, -10%); }
-  100% { transform: translate(0,0); }
-}
-
-/* 🌌 PARTICLES */
-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, rgba(255,0,170,0.15), transparent 60%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  filter: blur(120px);
   z-index: -1;
 }
 
-/* NAV */
+/* NAVBAR */
 nav {
   position: fixed;
   top: 0;
   width: 100%;
   display: flex;
-  justify-content: center;
-  padding: 20px;
+  justify-content: space-between;
+  padding: 18px 60px;
   backdrop-filter: blur(20px);
-}
-
-nav div {
-  display: flex;
-  gap: 40px;
+  background: rgba(10,10,15,0.5);
+  z-index: 10;
 }
 
 nav a {
-  color: #aaa;
+  margin-left: 25px;
   text-decoration: none;
+  color: #bbb;
+  font-size: 14px;
+  transition: 0.3s;
 }
 
-nav a:hover { color: white; }
+nav a:hover {
+  color: #fff;
+}
 
-/* HERO */
+/* SECTIONS */
 section {
   min-height: 100vh;
-  padding: 120px 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  padding: 140px 80px;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 1.2s ease;
 }
 
-/* 💥 GLITCH TEXT */
+section.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* HERO */
 .hero-title {
-  font-size: 80px;
-  font-weight: 700;
-  position: relative;
+  font-size: 72px;
+  font-weight: 600;
+  letter-spacing: -2px;
 }
 
-.hero-title::before,
-.hero-title::after {
-  content: attr(data-text);
-  position: absolute;
-  left: 0;
+.hero-sub {
+  margin-top: 15px;
+  font-size: 18px;
+  color: #aaa;
+  max-width: 500px;
 }
 
-.hero-title::before {
-  color: #ff00aa;
-  animation: glitch 2s infinite;
-}
-
-.hero-title::after {
-  color: #00f0ff;
-  animation: glitch 2s infinite reverse;
-}
-
-@keyframes glitch {
-  0% { transform: translate(0); }
-  20% { transform: translate(-2px,2px); }
-  40% { transform: translate(-2px,-2px); }
-  60% { transform: translate(2px,2px); }
-  80% { transform: translate(2px,-2px); }
-  100% { transform: translate(0); }
-}
-
-/* 🧲 MAGNET BUTTON */
+/* BUTTON */
 .btn {
-  margin-top: 40px;
-  padding: 14px 32px;
+  margin-top: 30px;
+  padding: 12px 28px;
   border-radius: 30px;
+  border: none;
   background: white;
   color: black;
-  border: none;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+/* ABOUT */
+.about-container {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 40px;
+  margin-top: 40px;
+}
+
+.about-text {
+  font-size: 18px;
+  color: #aaa;
+  line-height: 1.6;
+  max-width: 600px;
+}
+
+.about-card {
+  padding: 25px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  transition: 0.3s;
+}
+
+.about-card:hover {
+  transform: translateY(-8px);
 }
 
 /* PROJECTS */
 .projects {
   display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+  margin-top: 40px;
 }
 
 .card {
-  padding: 30px;
-  border-radius: 20px;
+  padding: 25px;
+  border-radius: 18px;
   background: rgba(255,255,255,0.05);
   backdrop-filter: blur(20px);
-  transition: 0.3s;
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: transform 0.3s ease;
 }
 
 .card:hover {
-  transform: scale(1.05) rotateX(5deg);
-  box-shadow: 0 0 40px #ff00aa55;
+  transform: translateY(-8px);
+}
+
+/* CONTACT */
+input, textarea {
+  width: 350px;
+  padding: 14px;
+  margin-top: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.05);
+  color: white;
+}
+
+textarea {
+  height: 120px;
+  resize: none;
+}
+
+/* CURSOR */
+.cursor {
+  position: fixed;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(255,255,255,0.08), transparent);
+  filter: blur(80px);
+  pointer-events: none;
+  transform: translate(-50%,-50%);
+  z-index: 0;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .about-container {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
 
@@ -144,86 +194,93 @@ section {
 
 <body>
 
-<div class="bg"></div>
-<canvas id="particles"></canvas>
-
 <nav>
+  <div style="font-weight:600;">Neon Studio</div>
   <div>
     <a href="#home">Home</a>
+    <a href="#about">About</a>
     <a href="#projects">Projects</a>
-    <a href="#contact">Contact Me</a>
+    <a href="#contact">Contact</a>
   </div>
 </nav>
 
+<div class="cursor"></div>
+
+<!-- HOME -->
+
 <section id="home">
-  <div class="hero-title" data-text="NEON FUTURE">
-    NEON FUTURE
+  <div class="hero-title">Design. Build. Inspire.</div>
+  <div class="hero-sub">
+    Experiențe digitale minimaliste, premium, inspirate din designul modern Apple.
   </div>
-  <p>Experiență digitală de nouă generație</p>
   <button class="btn">Explore</button>
 </section>
 
-<section id="projects">
-  <h2>Proiecte</h2>
-  <div class="projects">
-    <div class="card">AI Interface</div>
-    <div class="card">3D Web Experience</div>
-    <div class="card">Interactive Portfolio</div>
+<!-- ABOUT -->
+
+<section id="about">
+  <h2 style="font-size:40px; font-weight:600;">About Me</h2>
+
+  <div class="about-container">
+    <div class="about-text">
+      Sunt un designer & developer pasionat de experiențe digitale moderne și minimaliste.
+
+```
+  <br><br>
+
+  Creez interfețe elegante, animații fluide și produse digitale care oferă o experiență premium utilizatorilor.
+</div>
+
+<div class="about-card">
+  <div>⚡ UI/UX Design</div>
+  <div>🚀 Frontend Development</div>
+  <div>🎨 Creative Direction</div>
+</div>
+```
+
   </div>
 </section>
 
+<!-- PROJECTS -->
+
+<section id="projects">
+  <h2 style="font-size:40px; font-weight:600;">Proiecte</h2>
+
+  <div class="projects">
+    <div class="card">Website minimal luxury</div>
+    <div class="card">UI/UX design system</div>
+    <div class="card">Frontend animation system</div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+
 <section id="contact">
-  <h2>Contact Me</h2>
+  <h2 style="font-size:40px;">Contact</h2>
+
+  <input placeholder="Nume">
+  <input placeholder="Email">
+  <textarea placeholder="Mesaj"></textarea>
+  <br>
+  <button class="btn">Trimite</button>
 </section>
 
 <script>
-/* 🌌 PARTICLES */
-const canvas = document.getElementById("particles");
-const ctx = canvas.getContext("2d");
+const sections = document.querySelectorAll("section");
 
-canvas.width = innerWidth;
-canvas.height = innerHeight;
-
-let particles = [];
-
-for(let i=0;i<80;i++){
-  particles.push({
-    x: Math.random()*canvas.width,
-    y: Math.random()*canvas.height,
-    r: Math.random()*2,
-    dx: (Math.random()-0.5)*0.5,
-    dy: (Math.random()-0.5)*0.5
+window.addEventListener("scroll", ()=>{
+  sections.forEach(sec=>{
+    const top = sec.getBoundingClientRect().top;
+    if(top < window.innerHeight - 100){
+      sec.classList.add("show");
+    }
   });
-}
-
-function draw(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  particles.forEach(p=>{
-    p.x+=p.dx;
-    p.y+=p.dy;
-
-    ctx.beginPath();
-    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fillStyle="white";
-    ctx.fill();
-  });
-  requestAnimationFrame(draw);
-}
-draw();
-
-/* 🧲 MAGNET EFFECT */
-const btn = document.querySelector(".btn");
-
-btn.addEventListener("mousemove", e=>{
-  const rect = btn.getBoundingClientRect();
-  const x = e.clientX - rect.left - rect.width/2;
-  const y = e.clientY - rect.top - rect.height/2;
-
-  btn.style.transform = `translate(${x*0.2}px, ${y*0.2}px)`;
 });
 
-btn.addEventListener("mouseleave", ()=>{
-  btn.style.transform = "translate(0,0)";
+document.addEventListener("mousemove", e=>{
+  const c = document.querySelector(".cursor");
+  c.style.left = e.clientX + "px";
+  c.style.top = e.clientY + "px";
 });
 </script>
 
