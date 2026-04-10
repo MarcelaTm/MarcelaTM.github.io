@@ -1,1 +1,202 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neon Future</title>
 
+<style>
+body {
+  margin: 0;
+  background: #040404;
+  color: white;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
+
+/* CANVAS BACKGROUND */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -2;
+}
+
+/* GLOBAL GLOW */
+body::after {
+  content: "";
+  position: fixed;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, #ff00aa55, transparent);
+  filter: blur(150px);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+
+/* HERO */
+.hero {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 80px;
+}
+
+.title {
+  font-size: 70px;
+  line-height: 1.1;
+  background: linear-gradient(90deg, #ff00aa, #ff66cc, #ff00aa);
+  background-size: 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientMove 4s linear infinite;
+}
+
+@keyframes gradientMove {
+  0% {background-position: 0%;}
+  100% {background-position: 200%;}
+}
+
+.subtitle {
+  margin-top: 15px;
+  color: #aaa;
+  font-size: 18px;
+}
+
+/* BUTTON */
+.btn {
+  margin-top: 30px;
+  padding: 16px 40px;
+  border-radius: 50px;
+  border: 1px solid #ff00aa;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s;
+  position: relative;
+}
+
+.btn:hover {
+  background: #ff00aa;
+  box-shadow: 0 0 40px #ff00aa;
+  transform: scale(1.05);
+}
+
+/* CURSOR GLOW */
+.cursor {
+  position: fixed;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, #ff00aa55, transparent);
+  pointer-events: none;
+  filter: blur(80px);
+  transform: translate(-50%, -50%);
+}
+
+/* SMALL DETAILS */
+.line {
+  width: 80px;
+  height: 2px;
+  background: #ff00aa;
+  margin-top: 20px;
+  box-shadow: 0 0 10px #ff00aa;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="bg"></canvas>
+
+<div class="hero">
+  <div class="title" id="typing"></div>
+  <div class="line"></div>
+  <div class="subtitle">Frontend Developer • Future UI • Cyber Design</div>
+  <button class="btn magnetic">Explorează</button>
+</div>
+
+<div class="cursor"></div>
+
+<script>
+/* TYPING EFFECT */
+const text = "Construiesc viitorul digital.";
+let i = 0;
+
+function typing() {
+  if (i < text.length) {
+    document.getElementById("typing").innerHTML += text.charAt(i);
+    i++;
+    setTimeout(typing, 40);
+  }
+}
+typing();
+
+/* CURSOR GLOW */
+document.addEventListener("mousemove", e => {
+  const cursor = document.querySelector(".cursor");
+  cursor.style.left = e.clientX + "px";
+  cursor.style.top = e.clientY + "px";
+});
+
+/* MAGNETIC BUTTON */
+const btn = document.querySelector(".magnetic");
+
+btn.addEventListener("mousemove", e => {
+  const rect = btn.getBoundingClientRect();
+  const x = e.clientX - rect.left - rect.width / 2;
+  const y = e.clientY - rect.top - rect.height / 2;
+
+  btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+});
+
+btn.addEventListener("mouseleave", () => {
+  btn.style.transform = "translate(0,0)";
+});
+
+/* PARTICLES SYSTEM */
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for (let i = 0; i < 120; i++) {
+  particles.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 2,
+    dx: (Math.random() - 0.5) * 0.7,
+    dy: (Math.random() - 0.5) * 0.7
+  });
+}
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  particles.forEach(p => {
+    p.x += p.dx;
+    p.y += p.dy;
+
+    if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+    if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = "#ff00aa";
+    ctx.fill();
+  });
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+
+</body>
+</html>
