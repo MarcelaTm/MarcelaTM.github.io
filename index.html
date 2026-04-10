@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="ro">
 <head>
 <meta charset="UTF-8">
@@ -33,7 +32,7 @@ body::before {
   z-index: -1;
 }
 
-/* NAVBAR */
+/* NAVBAR (Apple style minimal) */
 nav {
   position: fixed;
   top: 0;
@@ -86,7 +85,7 @@ section.show {
   max-width: 500px;
 }
 
-/* BUTTON */
+/* BUTTON (Apple style subtle) */
 .btn {
   margin-top: 30px;
   padding: 12px 28px;
@@ -100,37 +99,6 @@ section.show {
 
 .btn:hover {
   transform: scale(1.05);
-}
-
-/* ABOUT */
-.about-container {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr;
-  gap: 40px;
-  margin-top: 40px;
-}
-
-.about-text {
-  font-size: 18px;
-  color: #aaa;
-  line-height: 1.6;
-  max-width: 600px;
-}
-
-.about-card {
-  padding: 25px;
-  border-radius: 18px;
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.08);
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  transition: 0.3s;
-}
-
-.about-card:hover {
-  transform: translateY(-8px);
 }
 
 /* PROJECTS */
@@ -170,7 +138,7 @@ textarea {
   resize: none;
 }
 
-/* CURSOR */
+/* CURSOR SOFT GLOW */
 .cursor {
   position: fixed;
   width: 400px;
@@ -181,15 +149,7 @@ textarea {
   transform: translate(-50%,-50%);
   z-index: 0;
 }
-
-/* MOBILE */
-@media (max-width: 768px) {
-  .about-container {
-    grid-template-columns: 1fr;
-  }
-}
 </style>
-
 </head>
 
 <body>
@@ -198,7 +158,6 @@ textarea {
   <div style="font-weight:600;">Neon Studio</div>
   <div>
     <a href="#home">Home</a>
-    <a href="#about">About</a>
     <a href="#projects">Projects</a>
     <a href="#contact">Contact</a>
   </div>
@@ -207,7 +166,6 @@ textarea {
 <div class="cursor"></div>
 
 <!-- HOME -->
-
 <section id="home">
   <div class="hero-title">Design. Build. Inspire.</div>
   <div class="hero-sub">
@@ -216,33 +174,7 @@ textarea {
   <button class="btn">Explore</button>
 </section>
 
-<!-- ABOUT -->
-
-<section id="about">
-  <h2 style="font-size:40px; font-weight:600;">About Me</h2>
-
-  <div class="about-container">
-    <div class="about-text">
-      Sunt un designer & developer pasionat de experiențe digitale moderne și minimaliste.
-
-```
-  <br><br>
-
-  Creez interfețe elegante, animații fluide și produse digitale care oferă o experiență premium utilizatorilor.
-</div>
-
-<div class="about-card">
-  <div>⚡ UI/UX Design</div>
-  <div>🚀 Frontend Development</div>
-  <div>🎨 Creative Direction</div>
-</div>
-```
-
-  </div>
-</section>
-
 <!-- PROJECTS -->
-
 <section id="projects">
   <h2 style="font-size:40px; font-weight:600;">Proiecte</h2>
 
@@ -254,7 +186,6 @@ textarea {
 </section>
 
 <!-- CONTACT -->
-
 <section id="contact">
   <h2 style="font-size:40px;">Contact</h2>
 
@@ -266,6 +197,7 @@ textarea {
 </section>
 
 <script>
+/* SCROLL REVEAL (Apple style subtle) */
 const sections = document.querySelectorAll("section");
 
 window.addEventListener("scroll", ()=>{
@@ -277,6 +209,7 @@ window.addEventListener("scroll", ()=>{
   });
 });
 
+/* SOFT CURSOR */
 document.addEventListener("mousemove", e=>{
   const c = document.querySelector(".cursor");
   c.style.left = e.clientX + "px";
