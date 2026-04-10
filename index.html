@@ -7,42 +7,51 @@
 <title>Neon Studio</title>
 
 <style>
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: #0b0b0f;
-  color: #fff;
+  background: #050507;
+  color: white;
   overflow-x: hidden;
 }
 
-/* subtle background glow */
-body::before {
-  content: "";
+/* BACKGROUND GLOW */
+.bg {
   position: fixed;
-  width: 800px;
-  height: 800px;
-  background: radial-gradient(circle, rgba(255,0,170,0.15), transparent 60%);
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-  filter: blur(120px);
-  z-index: -1;
+  inset: 0;
+  background: radial-gradient(circle at 20% 20%, #ff00aa22, transparent 40%),
+              radial-gradient(circle at 80% 60%, #00f0ff22, transparent 40%);
+  animation: move 12s infinite alternate ease-in-out;
+  z-index: -3;
 }
 
-/* NAVBAR CENTER */
+@keyframes move {
+  from { transform: scale(1) translate(0,0); }
+  to { transform: scale(1.2) translate(-30px, 20px); }
+}
+
+/* NOISE */
+body::after {
+  content:"";
+  position: fixed;
+  inset:0;
+  background: url('https://grainy-gradients.vercel.app/noise.svg');
+  opacity:0.05;
+  pointer-events:none;
+}
+
+/* NAV */
 nav {
   position: fixed;
   top: 0;
   width: 100%;
   display: flex;
-  justify-content: center; /* 👈 centrat */
+  justify-content: center;
   padding: 18px 0;
   backdrop-filter: blur(20px);
-  background: rgba(10,10,15,0.5);
+  background: rgba(10,10,15,0.4);
   z-index: 10;
 }
 
@@ -52,23 +61,21 @@ nav div {
 }
 
 nav a {
+  color: #aaa;
   text-decoration: none;
-  color: #bbb;
   font-size: 14px;
   transition: 0.3s;
 }
 
-nav a:hover {
-  color: #fff;
-}
+nav a:hover { color: white; }
 
-/* SECTIONS */
+/* SECTIONS (ANIMATION FIXED) */
 section {
   min-height: 100vh;
-  padding: 140px 80px;
+  padding: 140px 20px;
   opacity: 0;
-  transform: translateY(40px);
-  transition: all 1.2s ease;
+  transform: translateY(60px);
+  transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 section.show {
@@ -78,22 +85,25 @@ section.show {
 
 /* HERO */
 .hero-title {
-  font-size: 72px;
-  font-weight: 600;
+  font-size: 80px;
+  font-weight: 700;
   letter-spacing: -2px;
+  background: linear-gradient(90deg,#fff,#ff00aa,#00f0ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .hero-sub {
   margin-top: 15px;
   font-size: 18px;
   color: #aaa;
-  max-width: 500px;
+  max-width: 600px;
 }
 
 /* BUTTON */
 .btn {
-  margin-top: 30px;
-  padding: 12px 28px;
+  margin-top: 40px;
+  padding: 14px 32px;
   border-radius: 30px;
   border: none;
   background: white;
@@ -104,41 +114,72 @@ section.show {
 
 .btn:hover {
   transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(255,0,170,0.4);
 }
 
 /* ABOUT */
 .about {
-  margin-top: 40px;
-  max-width: 700px;
-  color: #aaa;
-  font-size: 18px;
+  margin-top: 50px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.about-text {
+  font-size: 26px;
   line-height: 1.6;
+  color: #ddd;
+}
+
+.about-text span {
+  color: #ff00aa;
+  text-shadow: 0 0 20px rgba(255,0,170,0.5);
+}
+
+.about-card {
+  padding: 25px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(20px);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  transition: 0.3s;
+}
+
+.about-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 0 40px rgba(0,240,255,0.2);
 }
 
 /* PROJECTS */
 .projects {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
   gap: 25px;
   margin-top: 40px;
 }
 
 .card {
-  padding: 25px;
-  border-radius: 18px;
+  padding: 30px;
+  border-radius: 20px;
   background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.08);
-  transition: transform 0.3s ease;
+  transition: 0.4s;
 }
 
 .card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 0 50px rgba(255,0,170,0.25);
 }
 
 /* CONTACT */
 input, textarea {
-  width: 350px;
+  width: 100%;
+  max-width: 420px;
   padding: 14px;
   margin-top: 12px;
   border-radius: 12px;
@@ -151,23 +192,13 @@ textarea {
   height: 120px;
   resize: none;
 }
-
-/* CURSOR */
-.cursor {
-  position: fixed;
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(255,255,255,0.08), transparent);
-  filter: blur(80px);
-  pointer-events: none;
-  transform: translate(-50%,-50%);
-  z-index: 0;
-}
 </style>
 
 </head>
 
 <body>
+
+<div class="bg"></div>
 
 <nav>
   <div>
@@ -178,14 +209,12 @@ textarea {
   </div>
 </nav>
 
-<div class="cursor"></div>
-
 <!-- HOME -->
 
 <section id="home">
-  <div class="hero-title">Design. Build. Inspire.</div>
+  <div class="hero-title">NEON FUTURE</div>
   <div class="hero-sub">
-    Experiențe digitale minimaliste, premium, inspirate din designul modern Apple.
+    Experiențe digitale de nouă generație, unde designul devine emoție.
   </div>
   <button class="btn">Explore</button>
 </section>
@@ -193,56 +222,67 @@ textarea {
 <!-- ABOUT -->
 
 <section id="about">
-  <div class="hero-title">About Me</div>
+  <div class="hero-title" style="font-size:50px;">About Me</div>
 
   <div class="about">
-    Sunt un designer & developer pasionat de experiențe digitale moderne.
-    Creez interfețe minimaliste, animații fluide și produse digitale premium
-    care se simt vii și moderne.
+    <div class="about-text">
+      Sunt un creator digital pasionat de <span>design modern</span>, 
+      <span>experiențe premium</span> și interfețe interactive.
+
+```
+  <br><br>
+
+  Nu fac doar site-uri — construiesc <span>experiențe</span> care se simt vii.
+</div>
+
+<div class="about-card">
+  <div>⚡ UI/UX Design</div>
+  <div>🚀 Frontend Dev</div>
+  <div>🎨 Creative Direction</div>
+</div>
+```
+
   </div>
 </section>
 
 <!-- PROJECTS -->
 
 <section id="projects">
-  <h2 style="font-size:40px; font-weight:600;">Proiecte</h2>
+  <div class="hero-title" style="font-size:40px;">Projects</div>
 
   <div class="projects">
-    <div class="card">Website minimal luxury</div>
-    <div class="card">UI/UX design system</div>
-    <div class="card">Frontend animation system</div>
+    <div class="card">AI Interface</div>
+    <div class="card">3D Web Experience</div>
+    <div class="card">Interactive Portfolio</div>
   </div>
 </section>
 
 <!-- CONTACT -->
 
 <section id="contact">
-  <h2 style="font-size:40px;">Contact Me</h2>
+  <div class="hero-title" style="font-size:40px;">Contact Me</div>
 
   <input placeholder="Nume">
   <input placeholder="Email">
   <textarea placeholder="Mesaj"></textarea>
-  <br>
-  <button class="btn">Trimite</button>
+
+<button class="btn">Trimite</button>
+
 </section>
 
 <script>
 const sections = document.querySelectorAll("section");
 
-window.addEventListener("scroll", ()=>{
-  sections.forEach(sec=>{
-    const top = sec.getBoundingClientRect().top;
-    if(top < window.innerHeight - 100){
+function reveal() {
+  sections.forEach(sec => {
+    if (sec.getBoundingClientRect().top < window.innerHeight - 100) {
       sec.classList.add("show");
     }
   });
-});
+}
 
-document.addEventListener("mousemove", e=>{
-  const c = document.querySelector(".cursor");
-  c.style.left = e.clientX + "px";
-  c.style.top = e.clientY + "px";
-});
+window.addEventListener("scroll", reveal);
+window.addEventListener("load", reveal);
 </script>
 
 </body>
