@@ -3,87 +3,59 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Neon Future</title>
+<title>Neon 3D Experience</title>
 
 <style>
 body {
   margin: 0;
-  background: #040404;
+  overflow: hidden;
+  background: #050505;
   color: white;
   font-family: Arial, sans-serif;
-  overflow: hidden;
 }
 
-/* CANVAS BACKGROUND */
-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: -2;
-}
-
-/* GLOBAL GLOW */
-body::after {
-  content: "";
-  position: fixed;
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, #ff00aa55, transparent);
-  filter: blur(150px);
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: -1;
-}
-
-/* HERO */
+/* TEXT UI */
 .hero {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-left: 80px;
+  position: absolute;
+  top: 50%;
+  left: 80px;
+  transform: translateY(-50%);
+  z-index: 2;
 }
 
 .title {
   font-size: 70px;
-  line-height: 1.1;
-  background: linear-gradient(90deg, #ff00aa, #ff66cc, #ff00aa);
+  background: linear-gradient(90deg,#ff00aa,#ff66cc,#ff00aa);
   background-size: 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: gradientMove 4s linear infinite;
+  animation: move 4s linear infinite;
 }
 
-@keyframes gradientMove {
-  0% {background-position: 0%;}
-  100% {background-position: 200%;}
+@keyframes move {
+  0% {background-position:0%;}
+  100% {background-position:200%;}
 }
 
 .subtitle {
   margin-top: 15px;
   color: #aaa;
-  font-size: 18px;
 }
 
-/* BUTTON */
 .btn {
-  margin-top: 30px;
-  padding: 16px 40px;
-  border-radius: 50px;
+  margin-top: 25px;
+  padding: 15px 40px;
+  border-radius: 40px;
   border: 1px solid #ff00aa;
   background: transparent;
   color: white;
   cursor: pointer;
-  font-size: 16px;
   transition: 0.3s;
-  position: relative;
 }
 
 .btn:hover {
   background: #ff00aa;
-  box-shadow: 0 0 40px #ff00aa;
-  transform: scale(1.05);
+  box-shadow: 0 0 30px #ff00aa;
 }
 
 /* CURSOR GLOW */
@@ -91,111 +63,92 @@ body::after {
   position: fixed;
   width: 300px;
   height: 300px;
-  background: radial-gradient(circle, #ff00aa55, transparent);
+  background: radial-gradient(circle,#ff00aa55,transparent);
   pointer-events: none;
   filter: blur(80px);
-  transform: translate(-50%, -50%);
-}
-
-/* SMALL DETAILS */
-.line {
-  width: 80px;
-  height: 2px;
-  background: #ff00aa;
-  margin-top: 20px;
-  box-shadow: 0 0 10px #ff00aa;
+  transform: translate(-50%,-50%);
+  z-index:1;
 }
 </style>
 </head>
 
 <body>
 
-<canvas id="bg"></canvas>
-
 <div class="hero">
-  <div class="title" id="typing"></div>
-  <div class="line"></div>
-  <div class="subtitle">Frontend Developer • Future UI • Cyber Design</div>
-  <button class="btn magnetic">Explorează</button>
+  <div class="title">NEON FUTURE</div>
+  <div class="subtitle">Experiență digitală premium</div>
+  <button class="btn">Explorează</button>
 </div>
 
 <div class="cursor"></div>
 
-<script>
-/* TYPING EFFECT */
-const text = "Construiesc viitorul digital.";
-let i = 0;
+<!-- THREE.JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
 
-function typing() {
-  if (i < text.length) {
-    document.getElementById("typing").innerHTML += text.charAt(i);
-    i++;
-    setTimeout(typing, 40);
-  }
+<script>
+/* SCENE */
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 1000);
+
+const renderer = new THREE.WebGLRenderer({alpha:true});
+renderer.setSize(innerWidth, innerHeight);
+document.body.appendChild(renderer.domElement);
+
+/* PARTICLE FIELD 3D */
+const geometry = new THREE.BufferGeometry();
+const count = 2000;
+
+const positions = new Float32Array(count * 3);
+
+for (let i = 0; i < count * 3; i++) {
+  positions[i] = (Math.random() - 0.5) * 20;
 }
-typing();
+
+geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+const material = new THREE.PointsMaterial({
+  color: 0xff00aa,
+  size: 0.03
+});
+
+const particles = new THREE.Points(geometry, material);
+scene.add(particles);
+
+camera.position.z = 5;
+
+/* ANIMATION */
+function animate() {
+  requestAnimationFrame(animate);
+
+  particles.rotation.y += 0.001;
+  particles.rotation.x += 0.0005;
+
+  renderer.render(scene, camera);
+}
+animate();
+
+/* PARALLAX MOUSE */
+document.addEventListener("mousemove", (e)=>{
+  const x = (e.clientX / innerWidth - 0.5);
+  const y = (e.clientY / innerHeight - 0.5);
+
+  particles.rotation.y += x * 0.02;
+  particles.rotation.x += y * 0.02;
+});
 
 /* CURSOR GLOW */
-document.addEventListener("mousemove", e => {
-  const cursor = document.querySelector(".cursor");
-  cursor.style.left = e.clientX + "px";
-  cursor.style.top = e.clientY + "px";
+document.addEventListener("mousemove", e=>{
+  const c = document.querySelector(".cursor");
+  c.style.left = e.clientX + "px";
+  c.style.top = e.clientY + "px";
 });
 
-/* MAGNETIC BUTTON */
-const btn = document.querySelector(".magnetic");
-
-btn.addEventListener("mousemove", e => {
-  const rect = btn.getBoundingClientRect();
-  const x = e.clientX - rect.left - rect.width / 2;
-  const y = e.clientY - rect.top - rect.height / 2;
-
-  btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+/* RESIZE */
+window.addEventListener("resize", ()=>{
+  camera.aspect = innerWidth/innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
 });
-
-btn.addEventListener("mouseleave", () => {
-  btn.style.transform = "translate(0,0)";
-});
-
-/* PARTICLES SYSTEM */
-const canvas = document.getElementById("bg");
-const ctx = canvas.getContext("2d");
-
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-let particles = [];
-
-for (let i = 0; i < 120; i++) {
-  particles.push({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    r: Math.random() * 2,
-    dx: (Math.random() - 0.5) * 0.7,
-    dy: (Math.random() - 0.5) * 0.7
-  });
-}
-
-function animate() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  particles.forEach(p => {
-    p.x += p.dx;
-    p.y += p.dy;
-
-    if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
-    if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
-
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    ctx.fillStyle = "#ff00aa";
-    ctx.fill();
-  });
-
-  requestAnimationFrame(animate);
-}
-
-animate();
 </script>
 
 </body>
